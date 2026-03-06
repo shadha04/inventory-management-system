@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Edit Product</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+    background: linear-gradient(to right, #dbeafe, #e0f2fe);
+    color: #1f2937;
+    padding-top: 70px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .navbar {
+    background-color: #60a5fa !important;
+  }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      width: 95%;
+      max-width: 900px;
+      margin: auto;
+      color: #1d1b1b;
+    }
+
+    .glass-card h3 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 600;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+    }
+
+    .form-control {
+      border-radius: 8px;
+      background: rgba(255,255,255,0.2);
+      color: #181616;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .form-control::placeholder {
+      color: #1d1a1a;
+    }
+
+    textarea.form-control {
+      resize: none;
+    }
+
+    .btn-primary {
+      background-color: #1976d2;
+      border: none;
+      border-radius: 8px;
+    }
+
+    .btn-primary:hover {
+      background-color: #1565c0;
+    }
+
+    label {
+      font-weight: 500;
+    }
+
+    small {
+      display: block;
+      margin-top: 5px;
+      color: #1b1a1a;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Edit Profile</a>
+    <div class="collapse navbar-collapse justify-content-end">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="btn btn-outline-light " href="{% url 'cs' %}">Home</a></li>
+        <li class="nav-item ms-2">
+    <a class="btn btn-outline-light" href="{% url 'view_cart' %}">Cart</a></li>
+        <li class="nav-item ms-2"><a class="btn btn-outline-light" href="{% url 'my_orders' %}">View Orders</a></li>
+        <li class="nav-item ms-2"><a class="btn btn-outline-light" href="{% url 'view_profile'  %}">View Profile</a></li>
+
+        <li class="nav-item ms-2"><a class="btn btn-outline-light" href="{% url 'log' %}">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="d-flex align-items-center justify-content-center" style="min-height: calc(100vh - 70px);">
+  <div class="glass-card">
+    <h2 class="text-center mb-4">Details</h2>
+    <form method="POST" enctype="multipart/form-data" onsubmit="return validateForm()" autocomplete="off">
+{% csrf_token %}
+
+<div class="mb-3">
+<label class="form-label">Name</label>
+<input type="text" id="name" name="name" class="form-control" value="{{ data.Customer_id.username }}">
+<small id="nameError" class="text-danger"></small>
+</div>
+
+
+<div class="mb-3">
+<label class="form-label">Email</label>
+<input type="text" id="email" name="email" class="form-control" value="{{ data.Customer_id.email }}">
+<small id="emailError" class="text-danger"></small>
+</div>
+
+
+<div class="mb-3">
+<label class="form-label">Phone</label>
+<input type="text" id="phone" name="phone" class="form-control" value="{{ data.ph_no }}">
+<small id="phoneError" class="text-danger"></small>
+</div>
+
+
+<div class="mb-3">
+<label class="form-label">Address</label>
+<textarea id="address" name="address" class="form-control" rows="3">{{ data.address }}</textarea>
+<small id="addressError" class="text-danger"></small>
+</div>
+
+<div class="mb-3">
+        <label class="form-label"> Image</label>
+        <input type="file" name="image" class="form-control">
+        {% if data.image %}
+         <small> <img src="{{ data.image.url }}" ></a></small>
+  {% endif %}
+      </div>
+
+
+<div class="mb-3">
+<label class="form-label">Password</label>
+<input type="password" id="pass" name="pass" class="form-control" placeholder="If you need to change Enter">
+<small id="passError" class="text-danger"></small>
+</div>
+
+
+<div class="mb-3">
+<label class="form-label">Confirm Password</label>
+<input type="password" id="con" name="con" class="form-control">
+<small id="conError" class="text-danger"></small>
+</div>
+
+
+<div class="d-grid">
+<button type="submit" class="btn btn-primary btn-lg">Update Profile</button>
+</div>
+
+</form>
+  </div>
+</div>
+<script>
+
+function validateForm(){
+
+let valid = true
+
+let name = document.getElementById("name").value.trim()
+let email = document.getElementById("email").value.trim()
+let phone = document.getElementById("phone").value.trim()
+let address = document.getElementById("address").value.trim()
+let pass = document.getElementById("pass").value
+let con = document.getElementById("con").value
+
+document.getElementById("nameError").innerHTML=""
+document.getElementById("emailError").innerHTML=""
+document.getElementById("phoneError").innerHTML=""
+document.getElementById("addressError").innerHTML=""
+document.getElementById("passError").innerHTML=""
+document.getElementById("conError").innerHTML=""
+
+if(name==""){
+document.getElementById("nameError").innerHTML="Please enter name"
+valid=false
+}
+else if(/^\d/.test(name)){
+document.getElementById("nameError").innerHTML="Name cannot start with number"
+valid=false
+}
+else if(name.length<3){
+document.getElementById("nameError").innerHTML="Name must be at least 3 characters"
+valid=false
+}
+
+
+if(email==""){
+document.getElementById("emailError").innerHTML="Please enter email"
+valid=false
+}
+else if(!email.includes("@")){
+document.getElementById("emailError").innerHTML="Enter valid email"
+valid=false
+}
+
+
+if(phone==""){
+document.getElementById("phoneError").innerHTML="Please enter phone number"
+valid=false
+}
+else if(!/^[986][0-9]{9}$/.test(phone)){
+document.getElementById("phoneError").innerHTML="Phone must start with 9, 8, or 6 and be 10 digits"
+valid=false
+}
+
+
+if(address==""){
+document.getElementById("addressError").innerHTML="Please enter address"
+valid=false
+}
+
+
+if(pass!="" && pass.length<6){
+document.getElementById("passError").innerHTML="Password must be minimum 6 characters"
+valid=false
+}
+
+
+if(pass!=con){
+document.getElementById("conError").innerHTML="Passwords do not match"
+valid=false
+}
+
+return valid
+}
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

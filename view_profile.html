@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Profile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body {
+    background: linear-gradient(to right, #dbeafe, #e0f2fe);
+    color: #1f2937;
+    padding-top: 70px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .navbar {
+    background-color: #60a5fa !important;
+  }
+
+.profile-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  border-radius: 15px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  padding: 30px;
+  margin: 30px auto;
+  max-width: 900px;
+}
+
+.table th,
+.table td {
+  color: #1d1a1a;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table thead {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+</style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Profile</a>
+    <div class="collapse navbar-collapse justify-content-end">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="btn btn-outline-light " href="{% url 'cs' %}">Home</a></li>
+        <li class="nav-item ms-2">
+    <a class="btn btn-outline-light" href="{% url 'view_cart' %}">Cart</a></li>
+        <li class="nav-item ms-2"><a class="btn btn-outline-light" href="{% url 'my_orders' %}">View Orders</a></li>
+        <li class="nav-item ms-2"><a class="btn btn-outline-light active" href="{% url 'view_profile'  %}">View Profile</a></li>
+
+        <li class="nav-item ms-2"><a class="btn btn-outline-light" href="{% url 'log' %}">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="profile-card">
+    <h2 class="text-center mb-4">Customer Details</h2>
+
+<div class="table-responsive">
+<table class="table table-borderless">
+
+<tr>
+<th class="w-25">Username</th>
+<td>{{ data.Customer_id.username }}</td>
+</tr>
+
+<tr>
+<th>Email</th>
+<td>{{ data.Customer_id.email }}</td>
+</tr>
+
+<tr>
+<th>Phone</th>
+<td>{{ data.ph_no }}</td>
+</tr>
+
+<tr>
+<th>User Type</th>
+<td>{{ data.Customer_id.usertype }}</td>
+</tr>
+
+<tr>
+<th>Address</th>
+<td>{{ data.address }}</td>
+</tr>
+
+<tr>
+<th>Profile Image</th>
+<td>
+{% if data.image %}
+<img src="{{ data.image.url }}" width="120" class="rounded">
+{% else %}
+No Image
+{% endif %}
+</td>
+</tr>
+
+</table>
+</div>
+
+<div class="text-center mt-4">
+<a href="{% url 'edit_profile' data.id %}" class="btn btn-primary">Edit</a>
+</div>
+
+  </div>
+</div>
+{% include 'app/footer.html' %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

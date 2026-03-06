@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Registration Page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body {
+    background: linear-gradient(to right, #dbeafe, #e0f2fe);
+    color: #1f2937;
+    padding-top: 70px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .navbar {
+    background-color: #60a5fa !important;
+  }
+
+.glass-card{
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(15px);
+border-radius:12px;
+padding:30px;
+box-shadow:0 8px 32px rgba(0,0,0,0.2);
+width:90%;
+max-width:800px;
+margin:auto;
+color:black;
+}
+
+.form-control{
+background:rgba(255,255,255,0.2);
+color:black;
+border:1px solid rgba(255,255,255,0.3);
+}
+
+.form-control::placeholder{
+color:black;
+}
+
+.btn-primary{
+background:#1976d2;
+border:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+<div class="container-fluid">
+<a class="navbar-brand">Registration Page</a>
+<div class="collapse navbar-collapse justify-content-end">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="btn btn-outline-light" href="/">Home</a></li>
+<li class="nav-item ms-2"><a class="btn btn-outline-light" href="/log/">Login</a></li>
+</ul>
+</div>
+</div>
+</nav>
+
+<div class="d-flex align-items-center justify-content-center" style="min-height:calc(100vh - 70px)">
+
+<div class="glass-card">
+
+    <h3 class="text-center mb-4">Registration Form</h3>
+
+    <form method="POST" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+    <!-- USERNAME -->
+
+    <div class="mb-3">
+    <label class="form-label">Username</label>
+
+    <input type="text"
+    id="username"
+    name="username"
+    class="form-control"
+    placeholder="Enter username"
+    minlength="3"
+    maxlength="30"
+    required>
+
+    </div>
+
+    <!-- EMAIL -->
+
+    <div class="mb-3">
+    <label class="form-label">Email</label>
+
+    <input type="email"
+    name="email"
+    class="form-control"
+    placeholder="Enter email"
+    required>
+
+    </div>
+
+    <!-- PHONE -->
+
+    <div class="mb-3">
+    <label class="form-label">Phone Number</label>
+
+    <input type="text"
+    id="phone"
+    name="phno"
+    class="form-control"
+    placeholder="Enter phone number"
+    maxlength="10"
+    required>
+
+    </div>
+
+    <!-- ADDRESS -->
+
+    <div class="mb-3">
+    <label class="form-label">Address</label>
+
+    <textarea
+    name="address"
+    class="form-control"
+    rows="3"
+    placeholder="Enter address"
+    required></textarea>
+
+     <div class="mb-3">
+        <label class="form-label"> Image</label>
+        <input type="file" name="image" class="form-control" required>
+      </div>
+    <!-- PASSWORD -->
+
+    <div class="mb-3">
+    <label class="form-label">Password</label>
+
+    <input type="password"
+    id="password"
+    name="password"
+    class="form-control"
+    placeholder="Enter password"
+    minlength="6"
+    maxlength="20"
+    required>
+
+    </div>
+
+    <!-- CONFIRM PASSWORD -->
+
+    <div class="mb-3">
+    <label class="form-label">Confirm Password</label>
+
+    <input type="password"
+    id="confirm"
+    name="confirm_password"
+    class="form-control"
+    placeholder="Confirm password"
+    required>
+
+    </div>
+
+    <div class="d-grid mt-3">
+    <button type="submit" class="btn btn-primary btn-lg">
+    Register
+    </button>
+    </div>
+
+    </form>
+
+</div>
+</div>
+
+<script>
+
+/* USERNAME VALIDATION */
+
+const username=document.getElementById("username");
+
+username.addEventListener("input",function(){
+
+if(/^\d/.test(username.value)){
+username.setCustomValidity("Username cannot start with a number");
+}
+else{
+username.setCustomValidity("");
+}
+
+});
+
+
+/* PHONE VALIDATION */
+
+const phone=document.getElementById("phone");
+
+phone.addEventListener("input",function(){
+
+const value=phone.value;
+
+if(!/^\d*$/.test(value)){
+phone.setCustomValidity("Phone number must contain digits only");
+}
+
+else if(value.length!=10){
+phone.setCustomValidity("Phone number must be exactly 10 digits");
+}
+
+else if(!['9','8','6'].includes(value[0])){
+phone.setCustomValidity("Phone must start with 9, 8, or 6");
+}
+
+else{
+phone.setCustomValidity("");
+}
+
+});
+
+
+/* PASSWORD MATCH */
+
+const password=document.getElementById("password");
+const confirm=document.getElementById("confirm");
+
+confirm.addEventListener("input",function(){
+
+if(confirm.value!==password.value){
+confirm.setCustomValidity("Passwords do not match");
+}
+else{
+confirm.setCustomValidity("");
+}
+
+});
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

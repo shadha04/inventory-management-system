@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Inventory Report</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+  body {
+    background: linear-gradient(to right, #dbeafe, #e0f2fe);
+    min-height: 100vh;
+    padding-top: 70px;
+    color: #1f2937;
+  }
+
+  .navbar {
+    background-color: #60a5fa !important;
+  }
+
+  .card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    color: #1f2937;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+
+  .card-title {
+    font-weight: 600;
+    color: #1e3a8a;
+  }
+
+  .btn-view {
+    background-color: #3b82f6;
+    border: none;
+    color: #fff;
+  }
+
+  .btn-view:hover {
+    background-color: #2563eb;
+  }
+
+  table {
+    background: rgba(255,255,255,0.9);
+    color: #1f2937;
+    border-radius: 8px;
+  }
+
+  th, td {
+    padding: 8px 12px;
+    text-align: left;
+  }
+
+  th {
+    background-color: #bfdbfe;
+    color: #1e3a8a;
+  }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Report</a>
+    <div class="collapse navbar-collapse justify-content-end">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="btn btn-outline-light" href="/ad/">Home</a></li>
+        <li class="nav-item ms-2"><a class="btn btn-outline-light" href="{% url 'addpr' %}">Add Products</a></li>
+        <li class="nav-item ms-2"><a class="btn btn-outline-light active" href="{% url 'report' %}">Report</a></li>
+        <li class="nav-item ms-2"><a class="btn btn-outline-light" href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="nav-item ms-2"><a class="btn btn-outline-light" href="{% url 'view_order' %}">Orders</a></li>
+        <li class="nav-item ms-2"><a class="btn btn-outline-light" href="{% url 'view_customer' %}">Customer</a></li>
+        <li class="nav-item ms-2"><a class="btn btn-outline-light" href="/">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<!-- Category-wise Summary -->
+<div class="container my-4">
+  <h3 class="mb-3">Category-wise Product Count</h3>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Number of Products</th>
+      </tr>
+    </thead>
+    <tbody>
+     {% for cat in category_summary %}
+      <tr>
+        <td>{{ cat.name }}</td>
+        <td>{{ cat.count }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="2">No categories found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
